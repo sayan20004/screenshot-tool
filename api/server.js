@@ -29,10 +29,22 @@ app.post('/api/screenshot', async (req, res) => {
   let browser;
   try {
     // Launch headless browser
-    browser = await puppeteer.launch({
+    const launchOptions = {
       headless: "new",
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--single-process'
+      ],
+    };
+
+    // On render, we often need to point to the specifically installed chrome/chromium
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+      launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+    }
+
+    browser = await puppeteer.launch(launchOptions);
 
     const page = await browser.newPage();
 
