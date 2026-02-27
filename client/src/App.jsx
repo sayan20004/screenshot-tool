@@ -63,7 +63,7 @@ export default function App() {
 
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3001/api/screenshot', {
+      const res = await fetch('https://screenshot-tool-34bh.onrender.com/api/screenshot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: formattedUrl })
